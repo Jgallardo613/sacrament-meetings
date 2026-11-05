@@ -29,11 +29,11 @@ export default function HomePage() {
       {/* Feature image */}
       <section className="flex justify-center">
         <Image
-          src="/chapel.jpg"
-          alt="LDS chapel meetinghouse"
+          src="/jesus-christ.jpg"
+          alt="Jesus the Christ, painting by Del Parson"
           width={800}
           height={400}
-          className="rounded-lg shadow object-cover w-full max-w-2xl"
+          className="rounded-lg shadow object-contain w-full max-w-2xl aspect-[2/1] bg-[#4a6b8b]"
           priority
         />
       </section>
