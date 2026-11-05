@@ -33,7 +33,7 @@ export default function HomePage() {
           alt="Jesus the Christ, painting by Del Parson"
           width={800}
           height={400}
-          className="rounded-lg shadow object-contain w-full max-w-2xl aspect-[2/1] bg-[#4a6b8b]"
+          className="rounded-lg shadow object-cover object-[center_12%] w-full max-w-2xl aspect-[2/1]"
           priority
         />
       </section>
