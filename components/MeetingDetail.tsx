@@ -1,4 +1,5 @@
 import { SacramentMeeting } from '@/lib/types';
+import PrintButton from './PrintButton';
 
 interface MeetingDetailProps {
   meeting: SacramentMeeting;
@@ -117,13 +118,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
 
       {/* Print button */}
       <div className="text-right no-print">
-        <button
-          onClick={() => window.print()}
-          className="btn-primary"
-          aria-label="Print this meeting program"
-        >
-          Print Program
-        </button>
+        <PrintButton />
       </div>
     </article>
   );
