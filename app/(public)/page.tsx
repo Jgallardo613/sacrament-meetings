@@ -6,10 +6,10 @@ export default function HomePage() {
     <div className="space-y-10">
       {/* Hero */}
       <section className="text-center py-12 space-y-4">
-        <h1 className="font-serif text-4xl font-bold text-blue-900">
+        <h1 className="text-4xl font-bold tracking-tight text-slate-900">
           Sacrament Meeting Planner
         </h1>
-        <p className="text-gray-600 max-w-xl mx-auto text-lg">
+        <p className="text-slate-600 max-w-xl mx-auto text-lg">
           A tool for bishoprics and branch leaders to plan, review, and share
           sacrament meeting agendas with ward members.
         </p>
@@ -19,7 +19,7 @@ export default function HomePage() {
           </Link>
           <Link
             href="/meetings"
-            className="border border-blue-900 text-blue-900 px-4 py-2 rounded hover:bg-blue-50 transition-colors"
+            className="btn-secondary"
           >
             All Meetings
           </Link>
@@ -33,7 +33,7 @@ export default function HomePage() {
           alt="Jesus the Christ, painting by Del Parson"
           width={800}
           height={400}
-          className="rounded-lg shadow object-cover object-[center_12%] w-full max-w-2xl aspect-[2/1]"
+          className="rounded-lg shadow-sm object-cover object-[center_12%] w-full max-w-3xl aspect-[2/1]"
           priority
         />
       </section>
@@ -55,8 +55,8 @@ export default function HomePage() {
           },
         ].map((f) => (
           <div key={f.title} className="card text-center space-y-2">
-            <h2 className="font-semibold text-blue-900">{f.title}</h2>
-            <p className="text-gray-500 text-sm">{f.desc}</p>
+            <h2 className="font-semibold text-slate-900">{f.title}</h2>
+            <p className="text-slate-500 text-sm">{f.desc}</p>
           </div>
         ))}
       </section>

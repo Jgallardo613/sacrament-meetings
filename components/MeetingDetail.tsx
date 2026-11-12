@@ -1,4 +1,5 @@
-import { SacramentMeeting } from '@/lib/types';
+import type { SacramentMeeting } from '@/lib/types';
+import { formatMeetingDate, meetingTypeLabel } from '@/lib/format';
 import PrintButton from './PrintButton';
 
 interface MeetingDetailProps {
@@ -8,7 +9,7 @@ interface MeetingDetailProps {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="space-y-2">
-      <h2 className="font-serif text-lg font-semibold text-blue-900 border-b border-gray-200 pb-1">
+      <h2 className="text-lg font-semibold text-slate-900 border-b border-slate-200 pb-1">
         {title}
       </h2>
       {children}
@@ -19,35 +20,24 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-2 text-sm">
-      <span className="font-medium text-gray-600 w-36 shrink-0">{label}</span>
-      <span className="text-gray-900">{value}</span>
+      <span className="font-medium text-slate-600 w-36 shrink-0">{label}</span>
+      <span className="text-slate-900">{value}</span>
     </div>
   );
 }
 
 export default function MeetingDetail({ meeting }: MeetingDetailProps) {
-  const formatted = new Date(meeting.date + 'T12:00:00').toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const formatted = formatMeetingDate(meeting.date);
 
   return (
-    <article className="space-y-6">
+    <article className="card mx-auto max-w-3xl space-y-6 p-6 sm:p-8">
       {/* Header */}
       <header className="text-center space-y-1">
-        <h1 className="font-serif text-3xl font-bold text-blue-900">
-          {meeting.meetingType === 'testimony'
-            ? 'Fast & Testimony Meeting'
-            : meeting.meetingType === 'stake'
-            ? 'Stake Meeting'
-            : meeting.meetingType === 'general'
-            ? 'General Conference Sunday'
-            : 'Sacrament Meeting'}
+        <h1 className="text-3xl font-bold text-slate-900">
+          {meetingTypeLabel(meeting.meetingType)}
         </h1>
-        <p className="text-gray-500">{formatted}</p>
-        <div className="flex justify-center gap-6 text-sm text-gray-600 pt-1">
+        <p className="text-slate-500">{formatted}</p>
+        <div className="flex justify-center gap-6 text-sm text-slate-600 pt-1">
           <span>Presiding: <strong>{meeting.presiding}</strong></span>
           <span>Conducting: <strong>{meeting.conducting}</strong></span>
         </div>
@@ -56,7 +46,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
       {/* Announcements */}
       {meeting.announcements && meeting.announcements.length > 0 && (
         <Section title="Announcements">
-          <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
+          <ul className="list-disc list-inside space-y-1 text-sm text-slate-700">
             {meeting.announcements.map((a, i) => (
               <li key={i}>{a}</li>
             ))}
@@ -91,7 +81,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
       <Section title="Program">
         <div className="space-y-3">
           {meeting.speakers.map((item, i) => (
-            <div key={i} className="card py-3 px-4 flex items-start gap-3">
+            <div key={i} className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
               <span
                 className={`badge mt-0.5 ${
                   item.type === 'musical-number'
@@ -102,8 +92,8 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 {item.type === 'musical-number' ? 'Music' : 'Speaker'}
               </span>
               <div>
-                <p className="font-medium text-gray-900">{item.name}</p>
-                <p className="text-sm text-gray-500">{item.topic}</p>
+                <p className="font-medium text-slate-900">{item.name}</p>
+                <p className="text-sm text-slate-500">{item.topic}</p>
               </div>
             </div>
           ))}

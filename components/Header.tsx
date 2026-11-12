@@ -1,19 +1,17 @@
+import Link from 'next/link';
 import NavLinks from './NavLinks';
+import TodayDate from './TodayDate';
+import { WARD_NAME } from '@/lib/site';
 
 export default function Header() {
-  const today = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-
   return (
-    <header className="bg-blue-900 text-white shadow-md">
-      <div className="container mx-auto px-4 max-w-4xl py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+    <header className="border-b border-slate-200 bg-white">
+      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div>
-          <span className="font-serif text-xl font-bold">Rexburg 4th Ward</span>
-          <p className="text-blue-200 text-sm">{today}</p>
+          <Link href="/" className="text-lg font-bold text-slate-900 hover:text-blue-600">
+            {WARD_NAME}
+          </Link>
+          <TodayDate className="text-sm text-slate-500" />
         </div>
         <NavLinks />
       </div>
