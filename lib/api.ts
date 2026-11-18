@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 
 /**
- * PLACEHOLDER: shared 501 response for the write endpoints (POST/PUT/DELETE).
- * They are stubs until creating/editing meetings is built in Week 04.
+ * PLACEHOLDER: shared 501 response for the JSON write endpoints (POST/PUT/DELETE).
+ * Writes go through the server actions in lib/actions.ts; these API stubs remain unimplemented.
  */
 export function notImplementedYet(action: string) {
   return NextResponse.json(
-    { error: `${action} is not implemented yet — coming in Week 04.` },
+    { error: `${action} is not available through the API yet. Use the meeting forms in the app.` },
     { status: 501 }
   );
 }

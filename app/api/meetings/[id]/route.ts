@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { getMeetingById, parseMeetingId } from '@/lib/meetings';
+import { getMeetingById, parseMeetingId } from '@/lib/meetings-db';
 import { notImplementedYet, serverError } from '@/lib/api';
 
 /**
@@ -25,12 +25,12 @@ export async function GET(_request: NextRequest, ctx: RouteContext<'/api/meeting
   }
 }
 
-// STUB (Week 04): update a meeting.
+// STUB (use the server actions in lib/actions.ts): update a meeting.
 export async function PUT() {
   return notImplementedYet('Updating a meeting');
 }
 
-// STUB (Week 04): delete a meeting.
+// STUB (use the server actions in lib/actions.ts): delete a meeting.
 export async function DELETE() {
   return notImplementedYet('Deleting a meeting');
 }

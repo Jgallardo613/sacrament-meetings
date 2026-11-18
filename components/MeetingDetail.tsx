@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { SacramentMeeting } from '@/lib/types';
 import { formatMeetingDate, meetingTypeLabel } from '@/lib/format';
 import PrintButton from './PrintButton';
@@ -107,7 +108,10 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
       </Section>
 
       {/* Print button */}
-      <div className="text-right no-print">
+      <div className="no-print flex justify-end gap-3">
+        <Link href={`/meetings/${meeting.id}/edit`} className="btn-secondary">
+          Edit Meeting
+        </Link>
         <PrintButton />
       </div>
     </article>

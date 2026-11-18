@@ -1,6 +1,6 @@
-# Sacrament Meeting Planner (W03)
+# Sacrament Meeting Planner (W04)
 
-Next.js 16 (App Router) + Neon Postgres + Tailwind CSS v4.
+Next.js 16 (App Router) + Neon Postgres + Tailwind CSS v4 + Zod.
 
 ## Setup
 
@@ -20,18 +20,22 @@ Next.js 16 (App Router) + Neon Postgres + Tailwind CSS v4.
 | --- | --- |
 | `/meetings?query=&page=` | List, newest first, 5 per page. Search + page live in the URL. |
 | `/meetings/[id]` | Meeting detail with program. Invalid/unknown id → 404 page. |
+| `/meetings/[id]/edit` | Edit form (server action `updateMeeting`). Missing meeting → not-found page. |
 | `/meetings/current` | Redirects to this week's meeting (ward time zone). |
-| `/admin/meetings/new` | **Placeholder** — form comes in Week 04. |
+| `/admin/meetings/new` | Create form (server action `createMeeting`). |
 | `GET /api/meetings?query=&page=&date=` | `{ meetings, total, page, totalPages }`. Bad `page`/`date` → 400. |
 | `GET /api/meetings/[id]` | `{ meeting, speakers }`. Bad id → 400, unknown → 404. |
-| `POST /api/meetings`, `PUT`/`DELETE /api/meetings/[id]` | **Stubs** — return 501 until Week 04. |
+| `POST /api/meetings`, `PUT`/`DELETE /api/meetings/[id]` | **Stubs** — return 501. Writes go through the server actions instead. |
 
 ## Project layout
 
 - `app/(public)/` — public site (header/footer layout, home, meetings pages)
 - `app/(admin)/` — admin area with its own layout (`/admin/...`)
 - `lib/db.ts` — Neon client (reads `DATABASE_URL`)
-- `lib/meetings.ts` — all SQL queries (ILIKE search, pagination, current meeting)
+- `lib/meetings-db.ts` — all SQL: reads (ILIKE search, pagination, current meeting) and create/update/delete
+- `lib/actions.ts` — server actions with Zod validation (`createMeeting`, `updateMeeting`, `deleteMeeting`)
+- `components/MeetingFormFields.tsx` — shared, accessible form fields; `CreateMeetingForm` / `EditMeetingForm` wrap it with `useActionState`
+- `components/DeleteMeetingButton.tsx` — per-row delete form with a confirm prompt
 - `lib/schema.sql` — `meetings` + `speakers` tables and seed data
 - `components/MeetingSearch.tsx` — debounced (use-debounce) search input, URL-only state
 - `components/Pagination.tsx` — page links that keep the search query
@@ -41,5 +45,5 @@ Next.js 16 (App Router) + Neon Postgres + Tailwind CSS v4.
 - **Seed data is fictional.** All 10 meetings, names, and announcements in `lib/schema.sql` are sample records.
 - **Ward name** "Rexburg 4th Ward" is hardcoded in `lib/site.ts`.
 - **Ward time zone** `America/Denver` is hardcoded in `lib/meetings.ts` (decides "this week").
-- **Admin area has no login yet.** `/admin/meetings/new` is a placeholder page.
-- **POST / PUT / DELETE** are stubs returning `501 Not Implemented`.
+- **No login yet (placeholder security).** Anyone who can open the site can create, edit, or delete meetings.
+- **JSON API writes** (`POST`/`PUT`/`DELETE`) are stubs returning `501 Not Implemented`.

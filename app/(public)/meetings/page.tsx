@@ -3,7 +3,10 @@ import type { Metadata } from 'next';
 import MeetingCard from '@/components/MeetingCard';
 import MeetingSearch from '@/components/MeetingSearch';
 import Pagination from '@/components/Pagination';
-import { parsePage, searchMeetings } from '@/lib/meetings';
+import DeleteMeetingButton from '@/components/DeleteMeetingButton';
+import Link from 'next/link';
+import { formatMeetingDate, meetingTypeLabel } from '@/lib/format';
+import { parsePage, getMeetings } from '@/lib/meetings-db';
 
 export const metadata: Metadata = {
   title: 'All Meetings | Sacrament Meeting Planner',
@@ -12,7 +15,7 @@ export const metadata: Metadata = {
 export default async function MeetingsPage({ searchParams }: PageProps<'/meetings'>) {
   const params = await searchParams;
   const query = typeof params.query === 'string' ? params.query : '';
-  const { meetings, total, page, totalPages } = await searchMeetings({
+  const { meetings, total, page, totalPages } = await getMeetings({
     query,
     page: parsePage(params.page),
   });
@@ -40,8 +43,21 @@ export default async function MeetingsPage({ searchParams }: PageProps<'/meeting
       ) : (
         <ul className="grid gap-4 md:grid-cols-2" role="list">
           {meetings.map((m) => (
-            <li key={m.id}>
+            <li key={m.id} className="flex flex-col gap-2">
               <MeetingCard meeting={m} />
+              <div className="flex justify-end gap-2">
+                <Link
+                  href={`/meetings/${m.id}/edit`}
+                  aria-label={`Edit ${meetingTypeLabel(m.meetingType)} on ${formatMeetingDate(m.date)}`}
+                  className="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                >
+                  Edit
+                </Link>
+                <DeleteMeetingButton
+                  id={m.id}
+                  label={`${meetingTypeLabel(m.meetingType)} on ${formatMeetingDate(m.date)}`}
+                />
+              </div>
             </li>
           ))}
         </ul>
@@ -52,7 +68,7 @@ export default async function MeetingsPage({ searchParams }: PageProps<'/meeting
       </Suspense>
 
       <p className="text-center text-xs text-slate-400">
-        Sample data: all meetings and names are fictional seed records.
+        Sample data: the seeded meetings and names are fictional.
       </p>
     </div>
   );

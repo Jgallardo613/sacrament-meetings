@@ -57,14 +57,14 @@ INSERT INTO meetings (
   closing_hymn_number, closing_hymn_title, closing_prayer
 ) VALUES
 (
-  '2026-10-05', 'general', 'Bishop Thomas Hale', 'First Counselor Mark Jensen', '[]',
+  '2026-10-04', 'general', 'Bishop Thomas Hale', 'First Counselor Mark Jensen', '[]',
   1, 'The Morning Breaks', 'Angela Scott',
   '[]', FALSE,
   174, 'Again We Meet Around the Board',
   341, 'Let Zion in Her Beauty Rise', 'Daniel White'
 ),
 (
-  '2026-10-12', 'stake', 'President Alan Brooks', 'President Alan Brooks',
+  '2026-10-11', 'stake', 'President Alan Brooks', 'President Alan Brooks',
   '["Stake conference next month — save November 22-23."]',
   262, 'Go Forth with Faith', 'Julia Morris',
   '[]', TRUE,
@@ -72,7 +72,7 @@ INSERT INTO meetings (
   30, 'Come, Come, Ye Saints', 'Nathan Price'
 ),
 (
-  '2026-10-19', 'regular', 'Bishop Thomas Hale', 'Bishop Thomas Hale',
+  '2026-10-18', 'regular', 'Bishop Thomas Hale', 'Bishop Thomas Hale',
   '["Service project at the food bank next Saturday, 9am–noon.",
     "Youth temple trip November 1st — permission slips due Friday."]',
   243, 'Let Us All Press On', 'Rebecca Ford',
@@ -82,7 +82,7 @@ INSERT INTO meetings (
   272, 'Oh Say, What Is Truth?', 'Carlos Rivera'
 ),
 (
-  '2026-10-26', 'testimony', 'Bishop Thomas Hale', 'Second Counselor Paul Nguyen',
+  '2026-10-25', 'testimony', 'Bishop Thomas Hale', 'Second Counselor Paul Nguyen',
   '["Fast Sunday offerings can be submitted online this month."]',
   19, 'We Thank Thee, O God, for a Prophet', 'Amy Chen',
   '[]', FALSE,
@@ -90,7 +90,7 @@ INSERT INTO meetings (
   29, 'A Poor Wayfaring Man of Grief', 'Mike Torres'
 ),
 (
-  '2026-11-02', 'regular', 'Bishop Thomas Hale', 'First Counselor Mark Jensen',
+  '2026-11-01', 'regular', 'Bishop Thomas Hale', 'First Counselor Mark Jensen',
   '["Ward temple trip scheduled for November 15th.",
     "Primary program rehearsal this Saturday at 10am."]',
   2, 'The Spirit of God', 'Sarah Williams',
@@ -99,7 +99,7 @@ INSERT INTO meetings (
   85, 'How Firm a Foundation', 'David Olsen'
 ),
 (
-  '2026-11-09', 'regular', 'Bishop Thomas Hale', 'Second Counselor Paul Nguyen',
+  '2026-11-08', 'regular', 'Bishop Thomas Hale', 'Second Counselor Paul Nguyen',
   '["Thanksgiving food drive boxes are in the foyer."]',
   92, 'For the Beauty of the Earth', 'Hannah Lee',
   '[{"description":"Sustaining of new ward clerk: Brother Omar Haddad"}]', FALSE,
@@ -107,7 +107,7 @@ INSERT INTO meetings (
   94, 'Come, Ye Thankful People', 'Ethan Brooks'
 ),
 (
-  '2026-11-16', 'regular', 'Bishop Thomas Hale', 'Bishop Thomas Hale',
+  '2026-11-15', 'regular', 'Bishop Thomas Hale', 'Bishop Thomas Hale',
   '["Ward Christmas party December 12th — sign-up sheet in the foyer."]',
   136, 'I Know That My Redeemer Lives', 'Grace Kim',
   '[]', FALSE,
@@ -115,7 +115,7 @@ INSERT INTO meetings (
   98, 'I Need Thee Every Hour', 'Isaac Romero'
 ),
 (
-  '2026-11-23', 'stake', 'President Alan Brooks', 'First Counselor Diane Walsh',
+  '2026-11-22', 'stake', 'President Alan Brooks', 'First Counselor Diane Walsh',
   '["Stake conference broadcast at the stake center at 10am."]',
   6, 'Redeemer of Israel', 'Kevin Tran',
   '[]', TRUE,
@@ -123,7 +123,7 @@ INSERT INTO meetings (
   3, 'Now Let Us Rejoice', 'Lucy Bennett'
 ),
 (
-  '2026-11-30', 'regular', 'Bishop Thomas Hale', 'First Counselor Mark Jensen',
+  '2026-11-29', 'regular', 'Bishop Thomas Hale', 'First Counselor Mark Jensen',
   '["Missionary farewell for Elder Noah Fisher next Sunday."]',
   223, 'Have I Done Any Good?', 'Olivia Carter',
   '[{"description":"Release of Young Women president: Sister Jenna Moss"}]', FALSE,
@@ -131,7 +131,7 @@ INSERT INTO meetings (
   270, 'I''ll Go Where You Want Me to Go', 'Ben Whitaker'
 ),
 (
-  '2026-12-07', 'testimony', 'Bishop Thomas Hale', 'Second Counselor Paul Nguyen',
+  '2026-12-06', 'testimony', 'Bishop Thomas Hale', 'Second Counselor Paul Nguyen',
   '["Fast offering envelopes are available from the deacons."]',
   201, 'Joy to the World', 'Rosa Delgado',
   '[]', FALSE,
@@ -140,22 +140,22 @@ INSERT INTO meetings (
 );
 
 INSERT INTO speakers (meeting_id, position, name, topic, type) VALUES
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-05'), 1, 'General Conference Broadcast', 'General Conference Sunday', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-12'), 1, 'President Alan Brooks', 'Ministering in the Latter Days', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-12'), 2, 'Stake Choir', 'I Stand All Amazed', 'musical-number'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-19'), 1, 'Brother Jason Kimball', 'Covenant Keeping', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-19'), 2, 'Sister Lena Park', 'The Atonement of Jesus Christ', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-26'), 1, 'Open Testimony Meeting', 'Personal Testimonies', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-02'), 1, 'Elder James Park', 'Faith in Jesus Christ', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-02'), 2, 'Ward Choir', 'Come, Come Ye Saints', 'musical-number'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-02'), 3, 'Sister Carla Mendez', 'Strengthening Families', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-09'), 1, 'Brother Omar Haddad', 'Gratitude in All Things', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-09'), 2, 'Sister Priya Shah', 'Ministering Like the Savior', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-16'), 1, 'Sister Maria Gonzalez', 'The Power of the Book of Mormon', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-16'), 2, 'Youth Speaker Tyler Nash', 'Seminary and Daily Study', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-16'), 3, 'Hernandez Family', 'Families Can Be Together Forever', 'musical-number'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-23'), 1, 'Sister Diane Walsh', 'Gathering Israel', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-23'), 2, 'Elder Samuel Okafor', 'Repentance and Joy', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-30'), 1, 'Elder Noah Fisher', 'Preparing to Serve', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-30'), 2, 'Sister Jenna Moss', 'Light of Christ', 'speaker'),
-  ((SELECT id FROM meetings WHERE meeting_date = '2026-12-07'), 1, 'Open Testimony Meeting', 'Personal Testimonies', 'speaker');
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-04'), 1, 'General Conference Broadcast', 'General Conference Sunday', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-11'), 1, 'President Alan Brooks', 'Ministering in the Latter Days', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-11'), 2, 'Stake Choir', 'I Stand All Amazed', 'musical-number'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-18'), 1, 'Brother Jason Kimball', 'Covenant Keeping', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-18'), 2, 'Sister Lena Park', 'The Atonement of Jesus Christ', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-10-25'), 1, 'Open Testimony Meeting', 'Personal Testimonies', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-01'), 1, 'Elder James Park', 'Faith in Jesus Christ', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-01'), 2, 'Ward Choir', 'Come, Come Ye Saints', 'musical-number'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-01'), 3, 'Sister Carla Mendez', 'Strengthening Families', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-08'), 1, 'Brother Omar Haddad', 'Gratitude in All Things', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-08'), 2, 'Sister Priya Shah', 'Ministering Like the Savior', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-15'), 1, 'Sister Maria Gonzalez', 'The Power of the Book of Mormon', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-15'), 2, 'Youth Speaker Tyler Nash', 'Seminary and Daily Study', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-15'), 3, 'Hernandez Family', 'Families Can Be Together Forever', 'musical-number'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-22'), 1, 'Sister Diane Walsh', 'Gathering Israel', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-22'), 2, 'Elder Samuel Okafor', 'Repentance and Joy', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-29'), 1, 'Elder Noah Fisher', 'Preparing to Serve', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-11-29'), 2, 'Sister Jenna Moss', 'Light of Christ', 'speaker'),
+  ((SELECT id FROM meetings WHERE meeting_date = '2026-12-06'), 1, 'Open Testimony Meeting', 'Personal Testimonies', 'speaker');

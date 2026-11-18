@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { parsePage, searchMeetings } from '@/lib/meetings';
+import { parsePage, getMeetings } from '@/lib/meetings-db';
 import { notImplementedYet, serverError } from '@/lib/api';
 
 /**
@@ -20,14 +20,14 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const result = await searchMeetings({ query, page: parsePage(params.get('page') ?? undefined), date });
+    const result = await getMeetings({ query, page: parsePage(params.get('page') ?? undefined), date });
     return NextResponse.json(result);
   } catch (error) {
     return serverError(error);
   }
 }
 
-// STUB (Week 04): create a meeting.
+// STUB (use the server actions in lib/actions.ts): create a meeting.
 export async function POST() {
   return notImplementedYet('Creating a meeting');
 }

@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getCurrentMeetingId } from '@/lib/meetings';
+import { getCurrentMeetingId } from '@/lib/meetings-db';
 
 // Resolved on every request (getCurrentMeetingId awaits connection()), so
 // "This Week" moves forward each Sunday instead of being frozen at build time.

@@ -14,7 +14,7 @@ export default function MeetingsLayout({ children }: { children: React.ReactNode
           This Week
         </Link>
         <Link href="/admin/meetings/new" className="ml-auto text-slate-500 hover:text-slate-700">
-          + New meeting (Week 04)
+          + New meeting
         </Link>
       </nav>
       {children}

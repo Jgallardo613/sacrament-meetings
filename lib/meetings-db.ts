@@ -1,7 +1,7 @@
 import 'server-only';
 import { connection } from 'next/server';
 import { getSql } from './db';
-import type { MeetingType, SacramentMeeting, SpeakerItem, WardBusinessItem } from './types';
+import type { MeetingInput, MeetingType, SacramentMeeting, SpeakerItem, WardBusinessItem } from './types';
 
 export const MEETINGS_PER_PAGE = 5;
 
@@ -109,7 +109,7 @@ async function fetchMeetingsByIds(ids: number[]): Promise<SacramentMeeting[]> {
  * against meeting type, presiding/conducting leaders, prayers, hymn titles,
  * and speaker names and topics. An out-of-range page is clamped to the last page.
  */
-export async function searchMeetings({
+export async function getMeetings({
   query = '',
   page = 1,
   date,
@@ -183,4 +183,92 @@ export async function getCurrentMeetingId(): Promise<number | null> {
     LIMIT 1
   `) as { id: number }[];
   return rows[0]?.id ?? null;
+}
+
+// ---------------------------------------------------------------------------
+// Writes (Week 04). Each runs as one atomic unit, so a meeting is never saved
+// without its speakers or left with half-replaced speakers.
+// ---------------------------------------------------------------------------
+
+/** Speakers as JSON with their program order, for jsonb_to_recordset. */
+function speakersJson(speakers: SpeakerItem[]): string {
+  return JSON.stringify(speakers.map((s, i) => ({ ...s, position: i + 1 })));
+}
+
+/** Insert a meeting and its speakers in a single statement. Returns the new id. */
+export async function createMeetingRecord(input: MeetingInput): Promise<number> {
+  const sql = getSql();
+  const rows = (await sql`
+    WITH new_meeting AS (
+      INSERT INTO meetings (
+        meeting_date, meeting_type, presiding, conducting, announcements,
+        opening_hymn_number, opening_hymn_title, opening_prayer,
+        ward_business, stake_business,
+        sacrament_hymn_number, sacrament_hymn_title,
+        closing_hymn_number, closing_hymn_title, closing_prayer
+      ) VALUES (
+        ${input.date}::date, ${input.meetingType}, ${input.presiding}, ${input.conducting},
+        ${JSON.stringify(input.announcements ?? [])}::jsonb,
+        ${input.openingHymn.number}, ${input.openingHymn.title}, ${input.openingPrayer},
+        ${JSON.stringify(input.wardBusiness)}::jsonb, ${input.stakeBusiness},
+        ${input.sacramentHymn.number}, ${input.sacramentHymn.title},
+        ${input.closingHymn.number}, ${input.closingHymn.title}, ${input.closingPrayer}
+      )
+      RETURNING id
+    ),
+    new_speakers AS (
+      INSERT INTO speakers (meeting_id, position, name, topic, type)
+      SELECT new_meeting.id, s.position, s.name, s.topic, s.type
+      FROM new_meeting, jsonb_to_recordset(${speakersJson(input.speakers)}::jsonb)
+        AS s(position int, name text, topic text, type text)
+    )
+    SELECT id FROM new_meeting
+  `) as { id: number }[];
+  return rows[0].id;
+}
+
+/**
+ * Update a meeting and replace its speakers, in one transaction.
+ * Returns false if no meeting has that id.
+ */
+export async function updateMeetingRecord(id: number, input: MeetingInput): Promise<boolean> {
+  const sql = getSql();
+  const [updated] = (await sql.transaction([
+    sql`
+      UPDATE meetings SET
+        meeting_date = ${input.date}::date,
+        meeting_type = ${input.meetingType},
+        presiding = ${input.presiding},
+        conducting = ${input.conducting},
+        announcements = ${JSON.stringify(input.announcements ?? [])}::jsonb,
+        opening_hymn_number = ${input.openingHymn.number},
+        opening_hymn_title = ${input.openingHymn.title},
+        opening_prayer = ${input.openingPrayer},
+        ward_business = ${JSON.stringify(input.wardBusiness)}::jsonb,
+        stake_business = ${input.stakeBusiness},
+        sacrament_hymn_number = ${input.sacramentHymn.number},
+        sacrament_hymn_title = ${input.sacramentHymn.title},
+        closing_hymn_number = ${input.closingHymn.number},
+        closing_hymn_title = ${input.closingHymn.title},
+        closing_prayer = ${input.closingPrayer}
+      WHERE id = ${id}
+      RETURNING id
+    `,
+    sql`DELETE FROM speakers WHERE meeting_id = ${id}`,
+    sql`
+      INSERT INTO speakers (meeting_id, position, name, topic, type)
+      SELECT m.id, s.position, s.name, s.topic, s.type
+      FROM meetings m, jsonb_to_recordset(${speakersJson(input.speakers)}::jsonb)
+        AS s(position int, name text, topic text, type text)
+      WHERE m.id = ${id}
+    `,
+  ])) as unknown as [{ id: number }[]];
+  return updated.length > 0;
+}
+
+/** Delete a meeting (its speakers go with it via ON DELETE CASCADE). Returns false if not found. */
+export async function deleteMeetingRecord(id: number): Promise<boolean> {
+  const sql = getSql();
+  const rows = (await sql`DELETE FROM meetings WHERE id = ${id} RETURNING id`) as { id: number }[];
+  return rows.length > 0;
 }

@@ -31,3 +31,6 @@ export interface SacramentMeeting {
   closingHymn: Hymn;
   closingPrayer: string;
 }
+
+/** Everything needed to create or update a meeting (no id yet). */
+export type MeetingInput = Omit<SacramentMeeting, 'id'>;
