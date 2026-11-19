@@ -158,6 +158,11 @@ function isDuplicateDate(error: unknown): boolean {
   return typeof error === 'object' && error !== null && 'code' in error && error.code === '23505';
 }
 
+/**
+ * Handle a failed database write. A taken date is a user mistake, so it comes
+ * back as a field error like any other validation failure. Anything else is
+ * logged on the server and rethrown as a friendly Error for error.tsx to show.
+ */
 function dbFailure(error: unknown, action: string, values: State['values']): State {
   if (isDuplicateDate(error)) {
     return {
@@ -167,23 +172,22 @@ function dbFailure(error: unknown, action: string, values: State['values']): Sta
     };
   }
   console.error(error);
-  return { message: `Database error: failed to ${action} the meeting. Please try again.`, values };
+  throw new Error(`Database error: failed to ${action} the meeting. Please try again.`);
 }
 
 export async function createMeeting(prevState: State, formData: FormData): Promise<State> {
   const result = parseForm(formData);
   if (!result.ok) return result.state;
 
-  let id: number;
   try {
-    id = await createMeetingRecord(result.input);
+    await createMeetingRecord(result.input);
   } catch (error) {
     return dbFailure(error, 'create', parseValues(formData));
   }
 
   // redirect() works by throwing, so it stays outside the try/catch.
   revalidatePath('/meetings');
-  redirect(`/meetings/${id}`);
+  redirect('/meetings');
 }
 
 export async function updateMeeting(id: number, prevState: State, formData: FormData): Promise<State> {
@@ -200,8 +204,7 @@ export async function updateMeeting(id: number, prevState: State, formData: Form
   }
 
   revalidatePath('/meetings');
-  revalidatePath(`/meetings/${id}`);
-  redirect(`/meetings/${id}`);
+  redirect('/meetings');
 }
 
 export async function deleteMeeting(formData: FormData): Promise<void> {

@@ -44,6 +44,6 @@ Next.js 16 (App Router) + Neon Postgres + Tailwind CSS v4 + Zod.
 
 - **Seed data is fictional.** All 10 meetings, names, and announcements in `lib/schema.sql` are sample records.
 - **Ward name** "Rexburg 4th Ward" is hardcoded in `lib/site.ts`.
-- **Ward time zone** `America/Denver` is hardcoded in `lib/meetings.ts` (decides "this week").
+- **Ward time zone** `America/Denver` is hardcoded in `lib/meetings-db.ts` (decides "this week").
 - **No login yet (placeholder security).** Anyone who can open the site can create, edit, or delete meetings.
 - **JSON API writes** (`POST`/`PUT`/`DELETE`) are stubs returning `501 Not Implemented`.
