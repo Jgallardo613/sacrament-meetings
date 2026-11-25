@@ -9,7 +9,8 @@ import { formatMeetingDate, meetingTypeLabel } from '@/lib/format';
 import { parsePage, getMeetings } from '@/lib/meetings-db';
 
 export const metadata: Metadata = {
-  title: 'All Meetings | Sacrament Meeting Planner',
+  title: 'Meetings',
+  description: 'Browse upcoming and past sacrament meeting agendas.',
 };
 
 export default async function MeetingsPage({ searchParams }: PageProps<'/meetings'>) {

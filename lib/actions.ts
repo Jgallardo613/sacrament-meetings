@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { auth } from '@/auth';
 import {
   createMeetingRecord,
   deleteMeetingRecord,
@@ -11,9 +12,12 @@ import {
 } from './meetings-db';
 import type { MeetingInput, SpeakerItem } from './types';
 
-// PLACEHOLDER SECURITY: there is no login yet, so anyone who can reach the
-// site can create, edit, or delete meetings. Add an auth check at the top of
-// each action once authentication exists.
+// Server actions can be called directly, so each one checks the session
+// itself instead of relying on middleware.ts.
+async function requireSession(): Promise<void> {
+  const session = await auth();
+  if (!session?.user) redirect('/login');
+}
 
 const requiredText = (label: string) =>
   z.string().trim().min(1, `${label} is required.`).max(200, `${label} must be 200 characters or fewer.`);
@@ -176,6 +180,8 @@ function dbFailure(error: unknown, action: string, values: State['values']): Sta
 }
 
 export async function createMeeting(prevState: State, formData: FormData): Promise<State> {
+  await requireSession();
+
   const result = parseForm(formData);
   if (!result.ok) return result.state;
 
@@ -191,6 +197,8 @@ export async function createMeeting(prevState: State, formData: FormData): Promi
 }
 
 export async function updateMeeting(id: number, prevState: State, formData: FormData): Promise<State> {
+  await requireSession();
+
   const result = parseForm(formData);
   if (!result.ok) return result.state;
 
@@ -208,6 +216,8 @@ export async function updateMeeting(id: number, prevState: State, formData: Form
 }
 
 export async function deleteMeeting(formData: FormData): Promise<void> {
+  await requireSession();
+
   const rawId = formData.get('id');
   const id = typeof rawId === 'string' ? parseMeetingId(rawId) : null;
   if (id === null) throw new Error('Invalid meeting id.');

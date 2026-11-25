@@ -7,7 +7,7 @@ import { formatMeetingDate, meetingToFormValues } from '@/lib/format';
 import { getMeetingById, parseMeetingId } from '@/lib/meetings-db';
 
 export const metadata: Metadata = {
-  title: 'Edit Meeting | Sacrament Meeting Planner',
+  title: 'Edit Meeting',
 };
 
 export default async function EditMeetingPage({ params }: PageProps<'/meetings/[id]/edit'>) {
